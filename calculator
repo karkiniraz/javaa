@@ -1,0 +1,118 @@
+import java.awt.*;
+import java.awt.event.*;
+
+public class calculator extends Frame implements ActionListener {
+    public TextField textField;
+    public Button buttonAdd, buttonSubtract, buttonMultiply, buttonDivide, buttonEquals;
+    public Button[] digitButtons;
+    public double firstNumber, secondNumber;
+    public String operator;
+
+    public calculator() {
+        setLayout(new BorderLayout());
+
+        textField = new TextField();
+        add(textField, BorderLayout.NORTH);
+
+        Panel buttonPanel = new Panel();
+        buttonPanel.setLayout(new GridLayout(4, 4));
+
+        digitButtons = new Button[10];
+        for (int i = 0; i < 10; i++) {
+            digitButtons[i] = new Button(String.valueOf(i));
+            digitButtons[i].addActionListener(this);
+        }
+
+        buttonAdd = new Button("+");
+        buttonSubtract = new Button("-");
+        buttonMultiply = new Button("*");
+        buttonDivide = new Button("/");
+        buttonEquals = new Button("=");
+
+        buttonAdd.addActionListener(this);
+        buttonSubtract.addActionListener(this);
+        buttonMultiply.addActionListener(this);
+        buttonDivide.addActionListener(this);
+        buttonEquals.addActionListener(this);
+
+        buttonPanel.add(digitButtons[7]);
+        buttonPanel.add(digitButtons[8]);
+        buttonPanel.add(digitButtons[9]);
+        buttonPanel.add(buttonAdd);
+        buttonPanel.add(digitButtons[4]);
+        buttonPanel.add(digitButtons[5]);
+        buttonPanel.add(digitButtons[6]);
+        buttonPanel.add(buttonSubtract);
+        buttonPanel.add(digitButtons[1]);
+        buttonPanel.add(digitButtons[2]);
+        buttonPanel.add(digitButtons[3]);
+        buttonPanel.add(buttonMultiply);
+        buttonPanel.add(digitButtons[0]);
+        buttonPanel.add(buttonEquals);
+        buttonPanel.add(buttonDivide);
+
+        add(buttonPanel, BorderLayout.CENTER);
+
+        setTitle("Simple Calculator");
+        setSize(200, 200);
+        setVisible(true);
+
+              addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    dispose();
+                }
+            });
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object source = e.getSource();
+
+        if (source == buttonAdd) {
+            operator = "+";
+            firstNumber = Double.parseDouble(textField.getText());
+            textField.setText("");
+        } else if (source == buttonSubtract) {
+            operator = "-";
+            firstNumber = Double.parseDouble(textField.getText());
+            textField.setText("");
+        } else if (source == buttonMultiply) {
+            operator = "*";
+            firstNumber = Double.parseDouble(textField.getText());
+            textField.setText("");
+        } else if (source == buttonDivide) {
+            operator = "/";
+            firstNumber = Double.parseDouble(textField.getText());
+            textField.setText("");
+        } else if (source == buttonEquals) {
+            secondNumber = Double.parseDouble(textField.getText());
+            double result = calculateResult();
+            textField.setText(String.valueOf(result));
+        } else {
+            Button clickedButton = (Button) source;
+            textField.setText(textField.getText() + clickedButton.getLabel());
+        }
+    }
+
+    private double calculateResult() {
+        switch (operator) {
+            case "+":
+                return firstNumber + secondNumber;
+            case "-":
+                return firstNumber - secondNumber;
+            case "*":
+                return firstNumber * secondNumber;
+            case "/":
+                return firstNumber / secondNumber;
+            default:
+                return 0;
+        }
+    }
+
+
+    public static void main(String[] args) {
+                new calculator();
+    }
+}
